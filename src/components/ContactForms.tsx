@@ -57,34 +57,54 @@ const ContactForms = () => {
     formObject.form_type = formType;
     formObject.submission_date = new Date().toLocaleString();
 
-    try {
-      // Send email using EmailJS
-      await emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        formObject,
-        EMAILJS_CONFIG.PUBLIC_KEY
-      );
+    // try {
+    //   // Send email using EmailJS
+    //   await emailjs.send(
+    //     EMAILJS_CONFIG.SERVICE_ID,
+    //     EMAILJS_CONFIG.TEMPLATE_ID,
+    //     formObject,
+    //     EMAILJS_CONFIG.PUBLIC_KEY
+    //   );
 
-      setSubmitStatus('success');
-      form.reset(); // Reset form after successful submission
+    //   setSubmitStatus('success');
+    //   form.reset(); // Reset form after successful submission
       
-      // Reset status after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
+    //   // Reset status after 5 seconds
+    //   setTimeout(() => {
+    //     setSubmitStatus('idle');
+    //   }, 5000);
 
-    } catch (error) {
-      console.error('Email sending failed:', error);
-      setSubmitStatus('error');
+    // } catch (error) {
+    //   console.error('Email sending failed:', error);
+    //   setSubmitStatus('error');
       
-      // Reset status after 5 seconds
-      setTimeout(() => {
-        setSubmitStatus('idle');
-      }, 5000);
-    } finally {
-      setIsSubmitting(false);
-    }
+    //   // Reset status after 5 seconds
+    //   setTimeout(() => {
+    //     setSubmitStatus('idle');
+    //   }, 5000);
+    // } finally {
+    //   setIsSubmitting(false);
+    // }
+     try {
+    const response = await fetch("/.netlify/functions/sendEmail", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formObject),
+    });
+
+    if (!response.ok) throw new Error("Failed to send email");
+
+    setSubmitStatus("success");
+    form.reset();
+
+    setTimeout(() => setSubmitStatus("idle"), 5000);
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    setSubmitStatus("error");
+    setTimeout(() => setSubmitStatus("idle"), 5000);
+  } finally {
+    setIsSubmitting(false);
+  }
   };
 
   return (
