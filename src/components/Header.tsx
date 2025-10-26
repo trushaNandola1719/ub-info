@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useState, useEffect } from "react";
-import ubLogoImage from '@/assets/ub-logo.png'
+import ubLogoImage from '@/assets/ub.png'
+import ubWithBGLogoImage from '@/assets/ub-bg.png'
 import ubTextImage from '@/assets/UB-text.jpeg'
 
 const Header = () => {
@@ -32,8 +33,10 @@ const Header = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <img src={ubLogoImage} alt="" width={'64px'} />
-            <img src={ubTextImage} alt="" width={'128px'}  />
+            <div className="ub-logo">
+
+            <img src={isScrolled? ubLogoImage:ubWithBGLogoImage} alt="" width={'200px'} height={70} className={"ub-logo"} style={isScrolled?{}:{borderRadius:'8px'}} />
+            </div>
             {/* <div className="w-10 h-10 gradient-primary rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">UB</span>
             </div>
