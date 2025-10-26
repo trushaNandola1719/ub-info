@@ -17,7 +17,7 @@ export async function handler(event) {
       body: JSON.stringify({
         service_id: process.env.EMAILJS_SERVICEID,
         template_id: process.env.EMAILJS_TEMPLATEID,
-        user_id: process.env.EMAILJS_PUBLICKEY, // in EmailJS this is called public key
+        accessToken: process.env.EMAILJS_PRIVATEKEY,
         template_params: data,
       }),
     });
